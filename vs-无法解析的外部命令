@@ -1,0 +1,25 @@
+在使用vs2008调试程序的过程中,经常会出现无法解析的外部符号问题,可能的原因有很多种,下面这些是我一年来积累的经验.
+
+仅供参考.
+
+
+考虑可能的原因:
+[0]出现无法解析可能是因为lib文件不正确,比如64位的编译配置,结果使用的是32位的lib包.
+[1]只写了类声明，但还没有写实现类,造成调用时无法解析
+[2]声明和定义没有统一，造成链接不一致，无法解析
+[3]没有在项目属性页的链接器的命令行选项加入相应的类包。
+[4]没有在c++包含目录和库目录加入相应的类包路径
+[5]在测试工程中被测文件目录可能需要包含被测类的cpp定义文件
+[6]ICE接口测试时，无法解析可能因为被测文件没有包含进相关的cpp文件，另外，在TestSuite_ProjectRun.h文件中需要包含IProjectRun.h头文件，及相关的头文件(举例)。
+
+[7]import相关的无法解析内容，解决办法是在链接器的依赖项中加入相应的动态库
+
+[8]出现如下错误的原因一般是动态库没有包进来。__imp
+ProjectRun.obj : error LNK2019: 无法解析的外部符号 __imp__StartHistoryLocalModule，该符号在函数 "protected: virtual int __thiscall HiRTDB::CProjectRun::DoStart(void)" (?DoStart@CProjectRun@HiRTDB@@MAEHXZ) 中被引用
+
+[9]error LNK2001: 无法解析的外部符号 __imp___CrtDbgReportW
+工程属性，C/C++,代码生成，运行时库选择MDd,
+
+[9]无法解析的外部符号"__declspec(dllimport) public: int __thiscall HiRTDB::CTagTree::GetObjectA(int,struct HiRTDB::SBaseReadProps const &,struct HiRTDB::SBaseReadValues &)" (__imp_?GetObjectA@CTagTree@HiRTDB@@QAEHHABUSBaseReadProps@2@AAUSBaseReadValues@2@@Z)，该符号在函数"public: int __thiscall HiRTDB::CStringImpl::Get(int,struct HiRTDB::SStringReadProps const &,struct HiRTDB::SStringReadValues &)" (?Get@CStringImpl@HiRTDB@@QAEHHABUSStringReadProps@2@AAUSStringReadValues@2@@Z) 中被引用
+
+原因可能是工程配置文件中有多余选项，请参考其他模块的配置选项，不要有多余配置。
