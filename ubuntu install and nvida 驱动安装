@@ -1,0 +1,26 @@
+机器：hp暗影精灵2plus
+     nvidia gtx 1060
+问题：U盘启动->install ubuntu->黑屏
+原因：ubuntu无法调用新版nvidia驱动
+
+解决：
+1. U盘启动
+2. install ubuntu
+3. 按'e'进入grub界面，将倒数第二行中的”quiet splash"改为“nomodeset”。F10保存，即可进入安装界面。
+4. install……
+    安装过程中若中间停在某个地方，是因为网络不稳定，拔掉网线或者耐心等待即可。
+
+5. reboot->recovery mode->install nvidia drive
+6. 官网下载linux-64-gtx1060驱动
+    NVIDIA-Linux-x86_64-384.90.run
+7. 获得安装权限
+    $ sudo chmoda +x NVIDIA-Linux-x86_64-384.90.run
+8. 进入命令行界面
+    $ sudo service lightmd stop 
+    按 Ctrl+Alt+F1
+9. install drive
+    $ sudo ./NVIDIA-Linux-x86_64-384.90.run
+10.回到X-windows
+    $ sudo service lightmd start
+    按 Ctrl+Alt+F7
+11.驱动安装成功！
