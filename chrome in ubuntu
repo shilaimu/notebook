@@ -1,0 +1,12 @@
+1. 官网下载最新linux-64位安装包
+    google-chrome-stable_current_amd64.deb
+2. 安装chrome
+    sudo dpkg -i google-chrome-stable_current_amd64.deb
+3. 安装后一般可以直接使用，若无法打开，有以下三种情况：
+    a. 命令行打开chrome，看提示错误，我的错误是缺少libnss3 
+      $ google-chrome --enable-logging=stderr --log-level=4
+      安装libnss3；
+      $ sudo apt-get install libnss3-dev
+    b. 删除配置文件
+      $ rm -rf ~/.config/google-chrome
+    c. 修改chrome文件...具体可百度，改geteuid为getppid
